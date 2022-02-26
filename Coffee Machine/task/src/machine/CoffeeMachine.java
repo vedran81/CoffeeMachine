@@ -31,7 +31,7 @@ public class CoffeeMachine {
 
 
     static String takeMenuChoice() {
-        System.out.println("\nWrite action (buy, fill, take): ");
+        System.out.println("\nWrite action (buy, fill, take, remaining, exit): ");
         return scanner.nextLine();
     }
 
@@ -54,38 +54,77 @@ public class CoffeeMachine {
     }
 
     static void buy() {
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
-        int choice = scanner.nextInt();
-        boolean hasEnough = true;
-        if (choice == 1) {
-            if (waterRemaining < espWaterNeeded || milkRemaining < espMilkNeeded || beansRemaining < espBeansNeeded)
-                hasEnough = false;
-            else {
-                waterRemaining = waterRemaining - espWaterNeeded;
-                milkRemaining = milkRemaining - espMilkNeeded;
-                beansRemaining = beansRemaining - espBeansNeeded;
-                cashCollected = cashCollected + espCost;
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
+        String choiceStr = scanner.next();
+
+        if (!choiceStr.equals("back")) {
+            int choice = Integer.parseInt(choiceStr);
+            boolean hasEnough = true;
+            if (choice == 1) {
+                if (waterRemaining < espWaterNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough water!");
+                }
+                if (milkRemaining < espMilkNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough milk!");
+                }
+                if (beansRemaining < espBeansNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough coffee!");
+                }
+                if (hasEnough) {
+                    waterRemaining = waterRemaining - espWaterNeeded;
+                    milkRemaining = milkRemaining - espMilkNeeded;
+                    beansRemaining = beansRemaining - espBeansNeeded;
+                    cashCollected = cashCollected + espCost;
+                }
             }
-        } else if (choice == 2) {
-            if (waterRemaining < latteWaterNeeded || milkRemaining < latteMilkNeeded || beansRemaining < latteBeansNeeded)
-                hasEnough = false;
-            else {
-                waterRemaining = waterRemaining - latteWaterNeeded;
-                milkRemaining = milkRemaining - latteMilkNeeded;
-                beansRemaining = beansRemaining - latteBeansNeeded;
-                cashCollected = cashCollected + latteCost;
+            if (choice == 2) {
+                if (waterRemaining < latteWaterNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough water!");
+                }
+                if (milkRemaining < latteMilkNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough milk!");
+                }
+                if (beansRemaining < latteBeansNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough coffee!");
+                }
+                if (hasEnough) {
+                    waterRemaining = waterRemaining - latteWaterNeeded;
+                    milkRemaining = milkRemaining - latteMilkNeeded;
+                    beansRemaining = beansRemaining - latteBeansNeeded;
+                    cashCollected = cashCollected + latteCost;
+                }
             }
-        } else if (choice == 3) {
-            if (waterRemaining < capuWaterNeeded || milkRemaining < capuMilkNeeded || beansRemaining < capuBeansNeeded)
-                hasEnough = false;
-            else {
-                waterRemaining = waterRemaining - capuWaterNeeded;
-                milkRemaining = milkRemaining - capuMilkNeeded;
-                beansRemaining = beansRemaining - capuBeansNeeded;
-                cashCollected = cashCollected + capuCost;
+            if (choice == 3) {
+                if (waterRemaining < capuWaterNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough water!");
+                }
+                if (milkRemaining < capuMilkNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough milk!");
+                }
+                if (beansRemaining < capuBeansNeeded) {
+                    hasEnough = false;
+                    System.out.println("Sorry, not enough coffee!");
+                }
+                if (hasEnough) {
+                    waterRemaining = waterRemaining - capuWaterNeeded;
+                    milkRemaining = milkRemaining - capuMilkNeeded;
+                    beansRemaining = beansRemaining - capuBeansNeeded;
+                    cashCollected = cashCollected + capuCost;
+                }
+            }
+            if (hasEnough) {
+                cupsRemaining = cupsRemaining - 1;
+                System.out.println("I have enough resources, making you a coffee!");
             }
         }
-        if (hasEnough) cupsRemaining = cupsRemaining - 1;
     }
 
     static void fill() {
@@ -105,15 +144,19 @@ public class CoffeeMachine {
     }
 
     static void machineLoop() {
-        showReserves();
-        String choice = takeMenuChoice();
-        if (choice.equals("buy")) buy();
-        else if (choice.equals("fill")) fill();
-        else if (choice.equals("take")) take();
+        String choice;
+        do {
+            choice = takeMenuChoice();
+            if (choice.equals("buy")) buy();
+            else if (choice.equals("fill")) fill();
+            else if (choice.equals("take")) take();
+            else if (choice.equals("remaining")) showReserves();
         /* else {
            invalid input message
         } */
-        showReserves();
+        }
+        while (!choice.equals("exit"));
+
     }
 
     public static void main(String[] args) {
