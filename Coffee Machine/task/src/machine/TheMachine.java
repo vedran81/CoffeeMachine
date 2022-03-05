@@ -84,7 +84,7 @@ public class TheMachine {
 
     public void buy() {
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
-        String choiceStr = scanner.next();
+        String choiceStr = scanner.nextLine();
 
         if (!choiceStr.equals("back")) {
             int choice = Integer.parseInt(choiceStr);
