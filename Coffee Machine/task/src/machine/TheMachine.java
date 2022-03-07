@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class TheMachine {
     private Scanner scanner = new Scanner(System.in);
+    public CoffeeRecipe[] recipe = new CoffeeRecipe[3];
 
     private int waterRemaining;
     private int milkRemaining;
@@ -82,8 +83,19 @@ public class TheMachine {
 
     }
 
+    public String coffeeTypesAvail() {
+        String ret = "" ;
+        for (int i = 0; i < recipe.length; i++) {
+            ret = ret + (i + 1) + recipe[i].getName() + ", " ;
+        }
+        return ret;
+    }
+
     public void buy() {
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
+        System.out.println("What do you want to buy? " +
+                //1 - espresso, 2 - latte, 3 - cappuccino,
+                coffeeTypesAvail() +
+                " back - to main menu: ");
         String choiceStr = scanner.nextLine();
 
         if (!choiceStr.equals("back")) {
@@ -204,6 +216,27 @@ public class TheMachine {
         setBeansRemaining(120);
         setCupsRemaining(9);
         setCashCollected(550);
+
+        recipe[0] = new CoffeeRecipe();
+        recipe[0].setName("espresso");
+        recipe[0].setWaterNeeded(250);
+        recipe[0].setMilkNeeded(0);
+        recipe[0].setBeansNeeded(16);
+        recipe[0].setCost(4);
+
+        recipe[1] = new CoffeeRecipe();
+        recipe[1].setName("latte");
+        recipe[1].setWaterNeeded(350);
+        recipe[1].setMilkNeeded(75);
+        recipe[1].setBeansNeeded(20);
+        recipe[1].setCost(7);
+
+        recipe[2] = new CoffeeRecipe();
+        recipe[2].setName("cappuccino");
+        recipe[2].setWaterNeeded(200);
+        recipe[2].setMilkNeeded(100);
+        recipe[2].setBeansNeeded(12);
+        recipe[2].setCost(6);
     }
 
 }
